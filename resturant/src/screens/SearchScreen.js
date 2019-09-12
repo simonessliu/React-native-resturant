@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View,Text,StyleSheet} from 'react-native';
+import {View,Text,StyleSheet,ScrollView} from 'react-native';
 import SearchBar from '../components/SearchBar';
 import useResults from '../hooks/useResults';
 import ResultsList from '../components/ResultsList';
@@ -13,20 +13,21 @@ const SearchScreen = () => {
             return result.price === price
         })
     }
-
+    // usually, we use flex:1 to handle the issue like the image or the content is out of the screen
     return (
-        <View>
+        <> 
             <SearchBar    
                 term={term} 
                 onTermChange={(newTerm)=>setTerm(newTerm)}
                 onTermSubmit={()=>searchApi(term)}
             />
             {errorMessage ? <Text>{errorMessage}</Text> : null}
-            <Text>We have found {results.length} results</Text>
-            <ResultsList results={filterResultByPrice('$')} title="Cost Effective"/>
-            <ResultsList results={filterResultByPrice('$$')} title="Bit pricer"/>
-            <ResultsList results={filterResultByPrice('$$$')} title="Big Spender"/>
-        </View>
+            <ScrollView>
+                <ResultsList results={filterResultByPrice('$')} title="Cost Effective"/>
+                <ResultsList results={filterResultByPrice('$$')} title="Bit pricer"/>
+                <ResultsList results={filterResultByPrice('$$$')} title="Big Spender"/>
+            </ScrollView> 
+        </>
     )
 };
 
